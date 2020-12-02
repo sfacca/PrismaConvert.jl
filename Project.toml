@@ -1,0 +1,12 @@
+name = "PrismaConvert"
+uuid = "959ffa20-442d-4f33-8a8b-fb952af99db5"
+authors = ["Sebastiano Facca <830479@stud.unive.it>"]
+version = "0.1.0"
+
+[deps]
+ArchGDAL = "c9ce4bd3-c3d5-55b8-8973-c0e20141b8c3"
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+DataFramesMeta = "1313f7d8-7da2-5740-9ea0-a2ca25f37964"
+HDF5 = "f67ccb44-e63f-5c2f-98bd-6dc0ccc4ba2f"
+Poptart = "197b51f5-fdb5-5f35-aa9f-0a14f35f5b28"
