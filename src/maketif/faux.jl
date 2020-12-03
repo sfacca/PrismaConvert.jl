@@ -6,8 +6,11 @@ export seq_along, getAttr, closestDistanceFunction, getData, dirname, extractWvl
 export diffLag, dnToReflectance, closestElements, ratioToReflectance, indexesOfNonZero, filename
 export matCrop, getCube, undoPerm
 
-using HDF5
-using ArchGDAL
+using ArchGDAL, CSV, DataFrames, HDF5
+
+function CSV.read(a) 
+    CSV.read(a, DataFrame)
+end
 
 function matCrop(mat)
     first = 0

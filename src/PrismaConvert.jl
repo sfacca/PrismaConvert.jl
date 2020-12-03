@@ -1,9 +1,10 @@
 module PrismaConvert
 
 
-
-include("maketif/eos_convert.jl")
+include("maketif/includes.jl")
 include("HDF5filesDict/HDF5filesDict.jl")
+
+
 export maketif, open, close
 
 maketif = eos_convert.maketif

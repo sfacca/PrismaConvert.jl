@@ -1,11 +1,13 @@
 using ArchGDAL
 using CSV
 using DataFrames
+
 include("faux.jl")
 include("eos_rastwrite_lines.jl")
 
 
 function create_full(basename,priority="VNIR",overwrite=false, geo = nothing)
+    println("###### create_full start ######")
 
     problems = Array{String,1}(undef,0)
     error=false
@@ -71,10 +73,10 @@ function create_full(basename,priority="VNIR",overwrite=false, geo = nothing)
         swir_copied = bandswir[swir_start:swir_finish,:]
         vnir_copied = bandvnir[vnir_start:vnir_finish,:]        
 
-        swir_copied[:type]="SWIR"
-        vnir_copied[:type]="VNIR"
+        swir_copied[!,:type] = ["SWIR" for _ in 1:size(swir_copied)[1]]
+        vnir_copied[!,:type] = ["VNIR" for _ in 1:size(vnir_copied)[1]]
         total_wls = vcat(vnir_copied,swir_copied)
-        total_wls[:band]=1:size(total_wls)[1]
+        total_wls[!,:band] = [i for i in 1:size(total_wls)[1]]
 
         swir_cube = nothing
         gtf=nothing
@@ -141,5 +143,7 @@ function create_full(basename,priority="VNIR",overwrite=false, geo = nothing)
         end
 
         CSV.write(string(basename,"_FULL.wvl"),total_wls)
+
+        println("###### create full end #######")
     end#fine else di isfile(full file) && !overwrite
 end

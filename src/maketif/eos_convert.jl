@@ -1,11 +1,14 @@
 module eos_convert
 
+include("faux.jl")
+include("eos_create_FULL.jl")
+include("eos_create_pan.jl")
+include("eos_create.jl")
+
+
+
   export maketif
 
-  include("faux.jl")
-  include("eos_create_FULL.jl")
-  include("eos_create_pan.jl")
-  include("eos_create.jl")
   using HDF5
   using CSV# per leggere tabella indexes_list.txt
   using DataFrames
@@ -113,7 +116,7 @@ module eos_convert
 
     # get SWIR data cube and convert to raster ----
     if SWIR
-      println("building VNIR raster...")
+      println("building SWIR raster...")
       out_file_swir = create_cube(in_file,proc_lev,source,basefile,wl_swir,order_swir,fwhm_swir;
         overwrite =overwrite,type="SWIR",selbands=selbands_swir, allowed_errors=allowed_errors)
     end
@@ -122,6 +125,7 @@ module eos_convert
 
     #    Create and write the FULL hyperspectral cube if needed ----
     if FULL
+      println("building FULL raster...")
       #get geo
       geo = eos_geoloc.get(in_file,"VNIR")#
       out_file_full = create_full(basefile,join_priority,overwrite,geo)
