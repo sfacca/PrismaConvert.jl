@@ -4,6 +4,8 @@ using HDF5
 using ArchGDAL
 
 export getGeoloc, getGtf, getCrs, get
+
+include("faux.jl")
 #=
 produce tupla geo:
     lat: matrice latitudini

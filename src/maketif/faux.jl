@@ -1,7 +1,7 @@
 ##funzioni ausiliarie
 
 
-
+using ArchGDAL
 
 
 function f_matCrop(mat)
