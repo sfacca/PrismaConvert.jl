@@ -1,11 +1,4 @@
-  using HDF5
-  using CSV# per leggere tabella indexes_list.txt
-  using DataFrames
-  using DataFramesMeta
-  using ArchGDAL
 
-
-  
 
   
   # O(length(x)+length(y))
@@ -17,14 +10,6 @@
       y = abs.(wvl .- x)
     # lapply(selbands_vnir, FUN = function(x) which.min(abs(wl_vnir - x))))
       minimum(abs.(wvl .- x))
-  end
-
-  function getAttr(file, name::String)
-      # name è attributo globale del file(aperto) hdf5 file
-      # ritorna campo valore name
-      atts = attrs(file)
-      content = read(atts, name)
-      content
   end
 
   function maketif(in_file,##NB: in_file dev esser già aperto, a diff di pr_convert

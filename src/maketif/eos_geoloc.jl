@@ -67,30 +67,30 @@ function getGeoloc(f,
 
     
 
-    lat = f_getData(file,string(geopath,"Latitude",wvl))
-    lon = f_getData(file,string(geopath,"Longitude",wvl))
+    lat = getData(file,string(geopath,"Latitude",wvl))
+    lon = getData(file,string(geopath,"Longitude",wvl))
 
     if proc_lev == "2D"          
         # If plev = L2D, get also the corners and projection ----
 
-        proj_code = f_getAttr(f, "Projection_Id")
-        proj_name = f_getAttr(f, "Projection_Name")
-        proj_epsg = f_getAttr(f, "Epsg_Code")
+        proj_code = getAttr(f, "Projection_Id")
+        proj_name = getAttr(f, "Projection_Name")
+        proj_epsg = getAttr(f, "Epsg_Code")
         xmin = minimum(
-            f_getAttr(f, "Product_ULcorner_easting"),
-            f_getAttr(f, "Product_LLcorner_easting")
+            getAttr(f, "Product_ULcorner_easting"),
+            getAttr(f, "Product_LLcorner_easting")
             )           
         xmax  = maximum(
-            f_getAttr(f, "Product_LRcorner_easting"),
-            f_getAttr(f, "Product_URcorner_easting")
+            getAttr(f, "Product_LRcorner_easting"),
+            getAttr(f, "Product_URcorner_easting")
         )            
         ymin = minimum(
-            f_getAttr(f, "Product_LLcorner_northing"),
-            f_getAttr(f, "Product_LRcorner_northing")
+            getAttr(f, "Product_LLcorner_northing"),
+            getAttr(f, "Product_LRcorner_northing")
             )
         ymax = maximum(
-            f_getAttr(f, "Product_ULcorner_northing"),
-            f_getAttr(f, "Product_URcorner_northing")
+            getAttr(f, "Product_ULcorner_northing"),
+            getAttr(f, "Product_URcorner_northing")
         ) 
 
         out = (xmin = xmin,
@@ -149,7 +149,7 @@ end
 
 function get(f,type)
     
-    proc_lev = f_getAttr(f,"Processing_Level")
+    proc_lev = getAttr(f,"Processing_Level")
     if type == "PAN"
         source = "PCO"
     else

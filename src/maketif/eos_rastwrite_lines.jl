@@ -1,9 +1,4 @@
 
-using HDF5
-using ArchGDAL
-
-
-
 #scrive cubo in raster
 function rastwrite_lines(cube,
         out_file;

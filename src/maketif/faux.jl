@@ -1,7 +1,7 @@
 ##funzioni ausiliarie
 
 
-using ArchGDAL, CSV, DataFrames, HDF5
+
 
 
 function f_matCrop(mat)
@@ -111,11 +111,11 @@ function f_seq_along(arr::Array{})
 end
 # name è attributo globale del file(aperto) hdf5 file
 # ritorna campo valore name
-function f_getAttr(file, name::String)    
+function getAttr(file, name::String)    
     read(attrs(file), name)
 end
 
-function f_getData(file, name::String)
+function getData(file, name::String)
     read(file,name)
 end
 
