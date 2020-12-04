@@ -1,18 +1,10 @@
 ##funzioni ausiliarie
 
-module faux
-
-export seq_along, getAttr, closestDistanceFunction, getData, dirname, extractWvl, fileSansExt
-export diffLag, dnToReflectance, closestElements, ratioToReflectance, indexesOfNonZero, filename
-export matCrop, getCube, undoPerm
 
 using ArchGDAL, CSV, DataFrames, HDF5
 
-function CSV.read(a) 
-    CSV.read(a, DataFrame)
-end
 
-function matCrop(mat)
+function f_matCrop(mat)
     first = 0
     last = 0
     numrows= size(mat)[1]
@@ -27,7 +19,7 @@ function matCrop(mat)
     mat[first:last,:]
 end
 
-function fileSansExt(path)
+function f_fileSansExt(path)
     c = length(path)
     for i = 1:length(path)
         
@@ -42,12 +34,12 @@ function fileSansExt(path)
     end
 end
 
-function dnToReflectanceFunction(scalemin::Number,scalemax::Number)
+function f_dnToReflectanceFunction(scalemin::Number,scalemax::Number)
     (x)->(scalemin+x*(scalemax-scalemin))/65535
 end
 
 
-function ratioToReflectance(f,cube,type)
+function f_ratioToReflectance(f,cube,type)
     proc_lev = getAttr(f,"Processing_Level")
     if proc_lev == 1
         throw(error("processing level 1 files not supported yet"))
@@ -68,7 +60,7 @@ function ratioToReflectance(f,cube,type)
     dnToReflectanceFunction(scalemin,scalemax).(cube)
 end
 
-function diffLag(x,lag)
+function f_diffLag(x,lag)
     res = zeros(length(x)-lag)
     for i = 1:(length(x)-lag)
         res[i] = abs(x[i]-x[i+lag])
@@ -78,7 +70,7 @@ end
 
 
 
-function closestElements(sel::Array{Float32,1},wvl::Array{Float32,1})#NB: wvl è array ordinato
+function f_closestElements(sel::Array{Float32,1},wvl::Array{Float32,1})#NB: wvl è array ordinato
 
     if length(wvl) == 1
         return Array{UInt8,1}(ones,length(sel))
@@ -101,7 +93,7 @@ function closestElements(sel::Array{Float32,1},wvl::Array{Float32,1})#NB: wvl è
     res
 end
 
-function indexesOfNonZero(arr)
+function f_indexesOfNonZero(arr)
     res = []
     index = 1
     for i = 1:length(arr)
@@ -113,21 +105,21 @@ function indexesOfNonZero(arr)
 end
 
 
-function seq_along(arr::Array{})
+function f_seq_along(arr::Array{})
     res = [1:length(arr)...]
     res
 end
 # name è attributo globale del file(aperto) hdf5 file
 # ritorna campo valore name
-function getAttr(file, name::String)    
+function f_getAttr(file, name::String)    
     read(attrs(file), name)
 end
 
-function getData(file, name::String)
+function f_getData(file, name::String)
     read(file,name)
 end
 
-function closestDistanceFunction(wvl::Array{Float32,1})
+function f_closestDistanceFunction(wvl::Array{Float32,1})
     (x) -> (minimum(abs.(wvl .- x)))
 end
 
@@ -141,7 +133,7 @@ function dirname(path)
     path[1:c]
 end
 
-function filename(path)
+function f_filename(path)
     c = length(path)
     for i = 1:length(path)
         if path[i]=='/'
@@ -151,7 +143,7 @@ function filename(path)
     path[c:end]
 end
 
-function undoPerm(arr,perm)
+function f_undoPerm(arr,perm)
     res = zeros(typeof(arr[1]),length(arr))
     if length(arr) != length(perm)
         println("errore input lunghezze diverse")
@@ -168,7 +160,7 @@ end
 
 
 
-function extractWvl(str::String)# prende stringa, ritorna array di int 
+function f_extractWvl(str::String)# prende stringa, ritorna array di int 
     currnum = ""
     res::Array{Int,1} = []
     intc = ['1','2','3','4','5','6','7','8','9','0']
@@ -197,7 +189,7 @@ end
 
 #fun prende bande da first a last da un gdal dataset (aperto con archgdal.read(filename))
 #e le ritorna in un cubo di dati
-function getCube(dataset::ArchGDAL.AbstractDataset,inizio::Union{Int,Nothing}=nothing,fine::Union{Int,Nothing}=nothing)
+function f_getCube(dataset::ArchGDAL.AbstractDataset,inizio::Union{Int,Nothing}=nothing,fine::Union{Int,Nothing}=nothing)
     if fine !=0
         cube = nothing
         first = true
@@ -233,11 +225,9 @@ function getCube(dataset::ArchGDAL.AbstractDataset,inizio::Union{Int,Nothing}=no
 end
 
 
-function getIndexList()
+function f_getIndexList()
     mkpath("downloads")
     download("https://github.com/sfacca/stage-Machine-learning/raw/master/extdata/md_indexes_list.txt","downloads/indexes_list.txt")
-    index_list = CSV.read("downloads/indexes_list.txt")
+    index_list = CSV.read("downloads/indexes_list.txt", DataFrame)
     select!(index_list, Not(:id))
 end
-
-end#end module

@@ -1,6 +1,4 @@
 
-include("faux.jl")
-
 using HDF5
 using ArchGDAL
 
@@ -17,7 +15,7 @@ function rastwrite_lines(cube,
 
 
     println("preparing to write tiff")
-    mkpath(faux.dirname(out_file))
+    mkpath(f_dirname(out_file))
     out_file = string(out_file,".tif")
     if isfile(out_file)
         println("file $out_file already exists")

@@ -2,9 +2,6 @@ using ArchGDAL
 using CSV
 using DataFrames
 
-include("faux.jl")
-include("eos_rastwrite_lines.jl")
-
 
 function create_full(basename,priority="VNIR",overwrite=false, geo = nothing)
     println("###### create_full start ######")
@@ -17,7 +14,7 @@ function create_full(basename,priority="VNIR",overwrite=false, geo = nothing)
         error=true
         push!(problems,"manca file $(string(basename,"_VNIR.wvl"))")
     else
-        bandvnir = CSV.read(string(basename,"_VNIR.wvl"))
+        bandvnir = CSV.read(string(basename,"_VNIR.wvl"), DataFrame)
     end
 
     if !isfile(string(basename,"_SWIR.wvl"))
@@ -25,7 +22,7 @@ function create_full(basename,priority="VNIR",overwrite=false, geo = nothing)
         error=true
         push!(problems,"manca file $(string(basename,"_SWIR.wvl"))")
     else
-        bandswir = CSV.read(string(basename,"_SWIR.wvl"))
+        bandswir = CSV.read(string(basename,"_SWIR.wvl"), DataFrame)
     end
 
     if isfile(string(basename,"_FULL.tif")) && overwrite==false
@@ -87,7 +84,7 @@ function create_full(basename,priority="VNIR",overwrite=false, geo = nothing)
 
         if isfile(string(basename,"_SWIR.tif"))
             dataset = ArchGDAL.read(string(basename,"_SWIR.tif"))
-            swir_cube = faux.getCube(dataset,swir_start,swir_finish)#prendo swir solo da index
+            swir_cube = f_getCube(dataset,swir_start,swir_finish)#prendo swir solo da index
             
         else
             push!(warnings,"file $(string(basename,"_SWIR.tif")) is missing")
@@ -95,7 +92,7 @@ function create_full(basename,priority="VNIR",overwrite=false, geo = nothing)
 
         if isfile(string(basename,"_VNIR.tif"))
             dataset = ArchGDAL.read(string(basename,"_VNIR.tif"))
-            vnir_cube = faux.getCube(dataset,vnir_start,vnir_finish)#prendo tutto vnir
+            vnir_cube = f_getCube(dataset,vnir_start,vnir_finish)#prendo tutto vnir
             
         else
             push!(warnings,"file $(string(basename,"_VNIR.tif")) is missing")

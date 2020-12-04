@@ -1,14 +1,3 @@
-module eos_convert
-
-include("faux.jl")
-include("eos_create_FULL.jl")
-include("eos_create_pan.jl")
-include("eos_create.jl")
-
-
-
-  export maketif
-
   using HDF5
   using CSV# per leggere tabella indexes_list.txt
   using DataFrames
@@ -20,8 +9,8 @@ include("eos_create.jl")
 
   
   # O(length(x)+length(y))
-  closestDistanceFunction = faux.closestDistanceFunction
-  extractWvl = faux.extractWvl
+  closestDistanceFunction = f_closestDistanceFunction
+  extractWvl = f_extractWvl
 
 
   function closestWvl(wvl::Array{Int64,1}, x::Int64)
@@ -54,13 +43,13 @@ include("eos_create.jl")
       cust_indexes=nothing)
 
 
-    @show out_folder = faux.dirname(out_file)
+    @show out_folder = f_dirname(out_file)
     println("creating folder $out_folder")
     mkpath(out_folder)
     println("made folder")
 
 
-    basefile = faux.fileSansExt(out_file)
+    basefile = f_fileSansExt(out_file)
 
     ##raccolta attributi
     println("loading attributes...")
@@ -139,4 +128,3 @@ include("eos_create.jl")
 
   end
 
-end

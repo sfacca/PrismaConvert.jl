@@ -1,7 +1,5 @@
 module eos_geoloc
 
-include("faux.jl")
-
 using HDF5
 using ArchGDAL
 
@@ -69,30 +67,30 @@ function getGeoloc(f,
 
     
 
-    lat = faux.getData(file,string(geopath,"Latitude",wvl))
-    lon = faux.getData(file,string(geopath,"Longitude",wvl))
+    lat = f_getData(file,string(geopath,"Latitude",wvl))
+    lon = f_getData(file,string(geopath,"Longitude",wvl))
 
     if proc_lev == "2D"          
         # If plev = L2D, get also the corners and projection ----
 
-        proj_code = faux.getAttr(f, "Projection_Id")
-        proj_name = faux.getAttr(f, "Projection_Name")
-        proj_epsg = faux.getAttr(f, "Epsg_Code")
+        proj_code = f_getAttr(f, "Projection_Id")
+        proj_name = f_getAttr(f, "Projection_Name")
+        proj_epsg = f_getAttr(f, "Epsg_Code")
         xmin = minimum(
-            faux.getAttr(f, "Product_ULcorner_easting"),
-            faux.getAttr(f, "Product_LLcorner_easting")
+            f_getAttr(f, "Product_ULcorner_easting"),
+            f_getAttr(f, "Product_LLcorner_easting")
             )           
         xmax  = maximum(
-            faux.getAttr(f, "Product_LRcorner_easting"),
-            faux.getAttr(f, "Product_URcorner_easting")
+            f_getAttr(f, "Product_LRcorner_easting"),
+            f_getAttr(f, "Product_URcorner_easting")
         )            
         ymin = minimum(
-            faux.getAttr(f, "Product_LLcorner_northing"),
-            faux.getAttr(f, "Product_LRcorner_northing")
+            f_getAttr(f, "Product_LLcorner_northing"),
+            f_getAttr(f, "Product_LRcorner_northing")
             )
         ymax = maximum(
-            faux.getAttr(f, "Product_ULcorner_northing"),
-            faux.getAttr(f, "Product_URcorner_northing")
+            f_getAttr(f, "Product_ULcorner_northing"),
+            f_getAttr(f, "Product_URcorner_northing")
         ) 
 
         out = (xmin = xmin,
@@ -151,7 +149,7 @@ end
 
 function get(f,type)
     
-    proc_lev = faux.getAttr(f,"Processing_Level")
+    proc_lev = f_getAttr(f,"Processing_Level")
     if type == "PAN"
         source = "PCO"
     else

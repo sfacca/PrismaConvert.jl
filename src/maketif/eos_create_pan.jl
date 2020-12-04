@@ -1,14 +1,4 @@
 
-
-
-
-include("eos_geoloc.jl")
-include("eos_rastwrite_lines.jl")
-include("faux.jl")
-
-
-
-
 using ArchGDAL
 #   helper function used to process and save the PAN data cube
 
@@ -29,7 +19,7 @@ function create_pan(
     
     #prendo cubo
 
-    cube = faux.getData(f,"HDFEOS/SWATHS/PRS_L$(proc_lev)_PCO/Data Fields/Cube")
+    cube = f_getData(f,"HDFEOS/SWATHS/PRS_L$(proc_lev)_PCO/Data Fields/Cube")
     dims = size(cube)
     width = dims[1]
     if length(dims)==2
@@ -68,13 +58,13 @@ function create_pan(f,# input data he5 from caller
 
     println(" - Accessing PAN dataset - ")
     if proc_lev == "1"
-        pan_scale  = faux.getAttr(f,"ScaleFactor_Pan")
-        pan_offset = faux.getAttr(f, "Offset_Pan")
-        pan_cube   = faux.getData(f,string("/HDFEOS/SWATHS/PRS_L1_",replace(source, "H"=>"P"),"/Data Fields/Cube"))    
+        pan_scale  = f_getAttr(f,"ScaleFactor_Pan")
+        pan_offset = f_getAttr(f, "Offset_Pan")
+        pan_cube   = f_getData(f,string("/HDFEOS/SWATHS/PRS_L1_",replace(source, "H"=>"P"),"/Data Fields/Cube"))    
     else
-        pan_cube  = faux.getData(f,string("//HDFEOS/SWATHS/PRS_L", proc_lev,"_PCO/Data Fields/Cube"))
-        panscale_min = faux.getAttr(f, "L2ScalePanMin")
-        panscale_max = faux.getAttr(f, "L2ScalePanMax")
+        pan_cube  = f_getData(f,string("//HDFEOS/SWATHS/PRS_L", proc_lev,"_PCO/Data Fields/Cube"))
+        panscale_min = f_getAttr(f, "L2ScalePanMin")
+        panscale_max = f_getAttr(f, "L2ScalePanMax")
     end
 
     if proc_lev in ["1", "2B", "2C"]
