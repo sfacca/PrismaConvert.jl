@@ -1,4 +1,6 @@
 
+using ArchGDAL, CSV, DataFrames
+
 function create_full(basename,priority="VNIR",overwrite=false, geo = nothing)
     println("###### create_full start ######")
 

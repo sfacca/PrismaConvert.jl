@@ -1,3 +1,5 @@
+using ArchGDAL
+
 #   helper function used to process and save the PAN data cube
 
 function create_pan(
