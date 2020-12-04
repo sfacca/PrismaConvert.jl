@@ -50,8 +50,8 @@ function create_cube(
     if proc_lev == 1
         println("processing level 1")
         cube = getData(f,string("HDFEOS/SWATHS/PRS_L1_",source,"/Data Fields/$(type)_Cube"))#sparsa?
-        scale= getAttr(f,"ScaleFactor_$(typelcase)")
-        offset= getAttr(f,"Offset_$(typelcase)")
+        #scale= getAttr(f,"ScaleFactor_$(typelcase)")
+        #offset= getAttr(f,"Offset_$(typelcase)")
 
         if apply_errmatrix
             println("prendo cubo errori")
@@ -61,7 +61,7 @@ function create_cube(
         println("processing level: $proc_lev")
         cpath = string("HDFEOS/SWATHS/PRS_L", proc_lev,"_",source, "/Data Fields/$(type)_Cube")
         println("prendo cubo da $f $cpath")
-        cube= getData(f,cpath)
+        cube = getData(f,cpath)
         # converte ratio (0,65535) in reflectance 
         #cube = f_ratioToReflectance(f,cube,type)
         

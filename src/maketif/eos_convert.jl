@@ -27,6 +27,8 @@ using ArchGDAL, CSV, DataFrames, HDF5, DataFramesMeta
       indexes=nothing,
       cust_indexes=nothing)
 
+    println("maketif start")
+
 
     @show out_folder = f_dirname(out_file)
     println("creating folder $out_folder")

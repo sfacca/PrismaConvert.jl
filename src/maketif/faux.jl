@@ -1,7 +1,7 @@
 ##funzioni ausiliarie
 
 
-using ArchGDAL
+using ArchGDAL, HDF5
 
 
 function f_matCrop(mat)
@@ -116,7 +116,8 @@ function getAttr(file, name::String)
 end
 
 function getData(file, name::String)
-    read(file,name)
+    file[name]
+    #read(file,name)
 end
 
 function f_closestDistanceFunction(wvl::Array{Float32,1})
