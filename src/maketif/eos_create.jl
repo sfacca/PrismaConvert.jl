@@ -1,12 +1,4 @@
 
-
-
-
-include("faux.jl")
-include("eos_geoloc.jl")
-include("eos_errcube.jl")
-include("eos_create_err.jl")
-include("eos_rastwrite_lines.jl")
 using CSV
 using DataFrames
 #fun aux crea e salva datacube
@@ -59,24 +51,24 @@ function create_cube(
 
     if proc_lev == 1
         println("processing level 1")
-        cube = faux.getData(f,string("HDFEOS/SWATHS/PRS_L1_",source,"/Data Fields/$(type)_Cube"))#sparsa?
-        scale= faux.getAttr(f,"ScaleFactor_$(typelcase)")
-        offset= faux.getAttr(f,"Offset_$(typelcase)")
+        cube = f_getData(f,string("HDFEOS/SWATHS/PRS_L1_",source,"/Data Fields/$(type)_Cube"))#sparsa?
+        scale= f_getAttr(f,"ScaleFactor_$(typelcase)")
+        offset= f_getAttr(f,"Offset_$(typelcase)")
 
         if apply_errmatrix
             println("prendo cubo errori")
-            err_cube= faux.getData(f,string("HDFEOS/SWATHS/PRS_L1_", source,"/Data Fields/$(type)_PIXEL_SAT_ERR_MATRIX/"))
+            err_cube= f_getData(f,string("HDFEOS/SWATHS/PRS_L1_", source,"/Data Fields/$(type)_PIXEL_SAT_ERR_MATRIX/"))
         end        
     else
         println("processing level: $proc_lev")
         cpath = string("HDFEOS/SWATHS/PRS_L", proc_lev,"_",source, "/Data Fields/$(type)_Cube")
         println("prendo cubo da $f $cpath")
-        cube= faux.getData(f,cpath)
+        cube= f_getData(f,cpath)
         # converte ratio (0,65535) in reflectance 
-        #cube = faux.ratioToReflectance(f,cube,type)
+        #cube = f_ratioToReflectance(f,cube,type)
         
         if apply_errmatrix 
-            err_cube = faux.getData(f,string("HDFEOS/SWATHS/PRS_L", proc_lev,"_",source, "/Data Fields/$(type)_PIXEL_L2_ERR_MATRIX"))
+            err_cube = f_getData(f,string("HDFEOS/SWATHS/PRS_L", proc_lev,"_",source, "/Data Fields/$(type)_PIXEL_L2_ERR_MATRIX"))
         end
     end
 
@@ -101,7 +93,7 @@ function create_cube(
     else
         sort!(selbands)
         println("$type wavelengths requested: $selbands")
-        seqbands = faux.closestElements(selbands,wl)
+        seqbands = f_closestElements(selbands,wl)
         println("closest $type wavelengths: $(wl[seqbands])")
     end
 
@@ -201,7 +193,7 @@ function create_cube(
     out_file_txt = string(out_file,".wvl")   
     if isnothing(selbands)    
         wl_sub = filter(x->x!=0,wl)
-        myind = faux.indexesOfNonZero(wl)
+        myind = f_indexesOfNonZero(wl)
         orbands = order[seqbands[myind]]
         fwhm_sub = fwhm[myind]
     else
@@ -211,7 +203,7 @@ function create_cube(
     end
     println("creating and writing dataframe of selected bands with wavelengths and bandwidths")
     myDf = DataFrame(
-        band = faux.seq_along(wl_sub),
+        band = f_seq_along(wl_sub),
         orband = orbands,
         wl = wl_sub,
         fwhm = fwhm_sub

@@ -152,7 +152,7 @@ function aux_convert(in_file, out_folder,
       mkpath("downloads")
       download("https://github.com/sfacca/stage-Machine-learning/raw/master/extdata/md_indexes_list.txt",
         "downloads/indexes_list.txt")
-      index_list = CSV.read("downloads/indexes_list.txt")
+      index_list = CSV.read("downloads/indexes_list.txt", DataFrame)
       select!(index_list, Not(:id))
 
       #av_indexes= index_list[:Formula]

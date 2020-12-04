@@ -1,5 +1,3 @@
-include("eos_rastwrite_lines.jl")
-
 function create_err(indexes,err_cube,whose_err;geo=nothing,overwrite=false)
 
     if isnothing(geo)
