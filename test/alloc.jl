@@ -18,19 +18,14 @@ f = PrismaConvert.open("../../stage-Machine-learning/prisma/hdf5/data/PRS_L2D_ST
 
 # ╔═╡ 2cccc60e-3577-11eb-2523-9989e3a846ab
 try
-	@show @btime PrismaConvert.maketif(
+	@btime PrismaConvert.maketif(
 	f.dict["file $((f.counter) - 1)"],
 	"out"
 )
-	x = 1
+	PrismaConvert.close(f)
 catch e
 	PrismaConvert.close(f)
 	e
-end
-
-# ╔═╡ ac48ae30-358c-11eb-35d0-9f47cc4ed5b3
-if x || !x
-	PrismaConvert.close(f)
 end
 
 # ╔═╡ Cell order:
@@ -39,4 +34,3 @@ end
 # ╠═9fe5e970-3576-11eb-3dc5-f592eb5111ea
 # ╠═0c7348e0-3580-11eb-1967-99c189cc2900
 # ╠═2cccc60e-3577-11eb-2523-9989e3a846ab
-# ╠═ac48ae30-358c-11eb-35d0-9f47cc4ed5b3

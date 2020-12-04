@@ -1,7 +1,7 @@
 name = "PrismaConvert"
 uuid = "959ffa20-442d-4f33-8a8b-fb952af99db5"
 authors = ["Sebastiano Facca <830479@stud.unive.it>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 ArchGDAL = "c9ce4bd3-c3d5-55b8-8973-c0e20141b8c3"
