@@ -131,7 +131,7 @@ function create_full(basename,priority="VNIR",overwrite=false, geo = nothing)
 
         out_file_full = string(basename,"_FULL")
         if !isnothing(cube)
-            rastwrite_lines.write(cube,
+            rastwrite_lines(cube,
                 out_file_full;
                 gtf=gtf,
                 crs=crs,

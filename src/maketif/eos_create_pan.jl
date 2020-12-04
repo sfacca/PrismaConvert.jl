@@ -41,7 +41,7 @@ function create_pan(
     out_file = string(out_file,"_PAN")
     #scrivo cubo
 
-    rastwrite_lines.write(cube,
+    rastwrite_lines(cube,
         out_file;
         gtf=geo.gtf,
         crs=geo.crs,

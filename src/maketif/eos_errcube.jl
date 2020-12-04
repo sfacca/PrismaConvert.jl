@@ -1,8 +1,4 @@
-module errcube
-
-export apply
-
-function apply!(err,target,allowed)
+function applyErrcube!(err,target,allowed)
     #=
     legenda errcube:
     x_{ibj} = 0 -> pixel_{ij} della banda b va bene
@@ -19,6 +15,4 @@ function apply!(err,target,allowed)
         end
     end
     count
-end
-
 end

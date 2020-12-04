@@ -26,5 +26,5 @@ function create_err(indexes,err_cube,whose_err;geo=nothing,overwrite=false)
     out_file = string(whose_err,"_ERR")
 
     println("created error cube of $(size(rast)) dimensions")
-    rastwrite_lines.write(rast,out_file;gtf=gtf,crs=crs,overwrite=overwrite)
+    rastwrite_lines(rast,out_file;gtf=gtf,crs=crs,overwrite=overwrite)
 end

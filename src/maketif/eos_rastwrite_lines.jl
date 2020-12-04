@@ -1,5 +1,3 @@
-module rastwrite_lines
-
 
 include("faux.jl")
 
@@ -10,7 +8,7 @@ export write
 
 
 #scrive cubo in raster
-function write(cube,
+function rastwrite_lines(cube,
         out_file;
         gtf=nothing,
         crs=nothing,
@@ -87,7 +85,5 @@ function actuallyWrite(cube,
     end
     out_file
 
-
-end
 
 end

@@ -129,14 +129,14 @@ function create_cube(
                                         
                     println("applico ERR_MATRIX")
                     #setta valori con errori a nothing
-                    count = errcube.apply!(ERR_MATRIX,band,[0])
+                    count = applyErrcube!(ERR_MATRIX,band,[0])
                     println("tolto $count pixel con errori")
                     
                 end
                 
                 if apply_errmatrix
                     println("applico cubo errori")
-                    count = errcube.apply!(err_cube[:,order[band_i],:],band,allowed_errors)
+                    count = applyErrcube!(err_cube[:,order[band_i],:],band,allowed_errors)
                     err_bands[ind] = order[band_i]
                     println("tolto $count pixel con errori")
                 end
@@ -171,7 +171,7 @@ function create_cube(
 
     #scrive file
     out_file = string(out_file,"_",type)
-    rastwrite_lines.write(rast, out_file; gtf=geo.gtf, crs=geo.crs,overwrite=overwrite)
+    rastwrite_lines(rast, out_file; gtf=geo.gtf, crs=geo.crs,overwrite=overwrite)
 
 
     #scrittura parti aggiuntive
