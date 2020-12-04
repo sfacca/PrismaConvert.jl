@@ -1,5 +1,9 @@
+#using ArchGDAL, CSV, DataFrames, HDF5, DataFramesMeta
+
 module PrismaConvert
 
+
+#
 
 #include("maketif/includes.jl")
 include("maketif/faux.jl")
@@ -13,7 +17,7 @@ include("maketif/eos_create_FULL.jl")
 include("maketif/eos_convert.jl")
 include("HDF5filesDict/HDF5filesDict.jl")
 
-using ArchGDAL, CSV, DataFrames, HDF5, DataFramesMeta
+
 
 export maketif, open, close
 
