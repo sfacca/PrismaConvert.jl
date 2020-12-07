@@ -9,6 +9,7 @@ function create_pan(
         overwrite=false      
         )
 
+        println("###### create_pan start ######")
     if proc_lev != "2D"
         println("errore: file non è prodotto lvl 2d")
         return nothing
@@ -36,7 +37,7 @@ function create_pan(
         crs=geo.crs,
         overwrite=overwrite
     )
-
+    println("###### create full end #######")
 end
 
 

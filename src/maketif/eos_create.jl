@@ -105,44 +105,26 @@ function create_cube(
     err_index = 1
     rast = nothing
     println("creating cube...")
-    for i in 1:length(seqbands)
-        band_i = seqbands[i]        
-        if proc_lev in ["1","2B","2C"]
-            throw(error("processing level $proc_lev not supported yet"))
-        else
-            if proc_lev == "2D"
-                #println("Importing Band: ", band_i," (",wl[band_i], ") of: $range")
-                
-                band = cube[:,order[band_i],:]
+    # 1. create cube
+    if proc_lev in ["1","2B","2C"]
+        throw(error("processing level $proc_lev not supported yet"))
+    else
+        if proc_lev == "2D"
+            rast = _prealloc_recursive_assign(seqbands, cube, order)
+        end
+    end
 
-                if apply_errmatrix && !isnothing(ERR_MATRIX)
-                                        
-                    println("applico ERR_MATRIX")
-                    #setta valori con errori a nothing
-                    count = applyErrcube!(ERR_MATRIX,band,[0])
-                    println("tolto $count pixel con errori")
-                    
-                end
-                
-                if apply_errmatrix
-                    println("applico cubo errori")
-                    count = applyErrcube!(err_cube[:,order[band_i],:],band,allowed_errors)
-                    err_bands[ind] = order[band_i]
-                    println("tolto $count pixel con errori")
-                end
-            end
+    #2. apply errcube if needed
+    if apply_errmatrix
+        count = 0
+        println("applico cubo errori")
+        for i in 1:length(seqbands)
+            count = count + applyErrcube!(err_cube[:,order[i],:],cube[:,:,i],allowed_errors)
+            err_bands[ind] = order[seqbands[i]]
         end
-        
-        if ind == 1
-            #println("first band is cube")
-            rast = copy(band)                
-        else
-            #println("appending band to cube")
-            rast = cat(rast,band,dims=3)  
-            #println("cube has $(size(rast)) dims")              
-        end
-        ind = ind +1
-    end 
+        println("tolto $count pixel con errori")
+    end
+    
     println("cube created")
     println("cube has $(size(rast)) dims")    
     
@@ -211,5 +193,58 @@ function create_cube(
     println("####### create_cube end #########")
     out_file
 end #end funzione create vnir
+
+
+function _prealloc_recursive_assign(arr, source, order)
+    
+    res = Array{typeof(source[1,1,1]),3}(undef,size(source)[1],size(source)[3], length(arr))
+    for i in 1:length(arr)
+        # from (width,nbands,height) to (width,height,nbands)
+		res[:,:,i] = source[:,order[arr[i]],:]
+	end
+	res
+end
+#= obsolete
+
+for i in 1:length(seqbands)
+        band_i = seqbands[i]        
+        if proc_lev in ["1","2B","2C"]
+            throw(error("processing level $proc_lev not supported yet"))
+        else
+            if proc_lev == "2D"
+                #println("Importing Band: ", band_i," (",wl[band_i], ") of: $range")
+                
+                band = cube[:,order[band_i],:]
+
+                if apply_errmatrix && !isnothing(ERR_MATRIX)
+                                        
+                    println("applico ERR_MATRIX")
+                    #setta valori con errori a nothing
+                    count = applyErrcube!(ERR_MATRIX,band,[0])
+                    println("tolto $count pixel con errori")
+                    
+                end
+                
+                if apply_errmatrix
+                    println("applico cubo errori")
+                    count = applyErrcube!(err_cube[:,order[band_i],:],band,allowed_errors)
+                    err_bands[ind] = order[band_i]
+                    println("tolto $count pixel con errori")
+                end
+            end
+        end
+        
+        if ind == 1
+            #println("first band is cube")
+            rast = copy(band)                
+        else
+            #println("appending band to cube")
+            rast = cat(rast,band,dims=3)  
+            #println("cube has $(size(rast)) dims")              
+        end
+        ind = ind +1
+    end 
+
+=#
 
 

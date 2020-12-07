@@ -30,29 +30,38 @@ function actuallyWrite(cube,
         gtf=nothing,
         crs=nothing)
 
-    dims = size(cube)
-    width = dims[1]
 
+    dims = size(cube)
+    
+
+    width = dims[1]
+    println("<=========================================")
     if length(dims)==2#se cubo è a due dimensioni, cubo è una banda
+
         height = dims[2]
+        tpe = typeof(cube[1,1])
         bandsnum = 1
     else
+        tpe = typeof(cube[1,1,1])
         height = dims[2]
         bandsnum = dims[3]
-    end   
-
-
+    end
+    println("writing $bandsnum bands of $width x $height")
+    println("dims: $dims")
+    println("cube type: $(typeof(cube))")
+    #tpe = typeof(cube[end])
+    println("type: $tpe")
     ArchGDAL.create(
         out_file,
         driver = ArchGDAL.getdriver("GTiff"),
         width=width,
         height=height,
         nbands=bandsnum,
-        dtype=typeof(cube[1])
+        dtype=tpe
     ) do dataset
         println("writing bands in  empty tiff")
         if length(dims)==2
-            ArchGDAL.write!(dataset, cube, 1)
+            ArchGDAL.write!(dataset, cube[:,:], 1)
         else
             for i = 1:bandsnum
                 #println("writing $i th band")
