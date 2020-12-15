@@ -16,10 +16,12 @@ include("maketif/eos_create_pan.jl")
 include("maketif/eos_create_FULL.jl")
 include("maketif/eos_convert.jl")
 include("HDF5filesDict/HDF5filesDict.jl")
+include("transform/preliminary.jl")
+include("plot/plot.jl")
 
 
 
-export maketif, open, close
+export maketif, open, close, plot_band, plot_linewise, plot_cols, plot_rows
 
 
 function open(f)
