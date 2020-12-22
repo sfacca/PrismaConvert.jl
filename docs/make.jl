@@ -5,7 +5,9 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 66b9eb60-387d-11eb-0aec-912354dff2d6
-using Documenter, PrismaConvert
+using Documenter
+
+include("../src/PrismaConvert.jl")
 
 # ╔═╡ a4a55c20-387d-11eb-320a-5ba6a364fca7
 #push!(LOAD_PATH,"../src/")

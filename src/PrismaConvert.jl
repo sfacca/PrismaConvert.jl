@@ -1,8 +1,20 @@
-using ArchGDAL, CSV, DataFrames, HDF5, DataFramesMeta
 
+
+"""
+Main module for `PrismaConvert.jl` -- a Julia package for Prisma's HDF5 products. 
+
+# Exports  
+. maketif
+. open
+. close
+. plot_band
+. plot_linewise
+. plot_cols
+. plot_rows
+"""
 module PrismaConvert
 
-
+using ArchGDAL, CSV, DataFrames, HDF5, DataFramesMeta
 #
 
 #include("maketif/includes.jl")
@@ -23,14 +35,40 @@ include("plot/plot.jl")
 
 export maketif, open, close, plot_band, plot_linewise, plot_cols, plot_rows
 
+"""
+    open(
+        f,
+        mode
+    )
 
+Opens a HDF5 file, returns a dictionary containing the opened file
+```julia
+using PrismaConvert
+open("./file.h5")
+```
+File is opened in read only mode by default, can be opened in other modes by providng mode:
+```julia
+using PrismaConvert
+open("./file.h5","w")
+```
+"""
 function open(f)
     open(f,"r")
 end
 function open(f,mode::String)
     HDF5fd.filesDict(f,mode)
 end
+"""
+    close(
+        f
+    )
 
+Closes all files in the provided files dictionary, returns number of files closed
+```julia
+using PrismaConvert
+close(my_dict)
+```
+"""
 close = HDF5fd.closeall
 
 

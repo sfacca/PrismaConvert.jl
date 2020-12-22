@@ -12,6 +12,31 @@ using ArchGDAL, CSV, DataFrames, HDF5, DataFramesMeta
       minimum(abs.(wvl .- x))
   end
 
+  """
+  maketif(
+    in_file,##NB: in_file dev esser già aperto, a diff di pr_convert
+    out_file::String;
+    allowed_errors = nothing, #array containing ids of errors to cut from product tif
+    source="HCO",
+    PAN=true,#boolean: true-> creates panchromatic tif
+    VNIR=true,#boolean: true-> creates vnir tif
+    SWIR=true, #boolean: true-> creates swir tif 
+    FULL=true,#boolean: true-> creates full tif
+    join_priority="VNIR", #choose wether to overwrite SWIR or VNIR bands in FULL tif
+    overwrite=false, #choose wether to overwrite files
+    selbands_vnir=nothing, #vnir bands to get
+    selbands_swir=nothing, #swir bands to get
+    indexes=nothing,
+    cust_indexes=nothing
+    )
+
+
+Gets bands from an already opened HDF5 file and saves them in a .tif raster file
+```julia
+using PrismaConvert
+maketif(my_dict["file 0"], "out/result")
+```
+"""
   function maketif(in_file,##NB: in_file dev esser già aperto, a diff di pr_convert
       out_file::String;
       allowed_errors = nothing,

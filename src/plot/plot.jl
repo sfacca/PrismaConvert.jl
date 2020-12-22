@@ -8,6 +8,19 @@ using InteractiveUtils
 using ImageTransformations, CoordinateTransformations, Rotations
 
 # ╔═╡ c9d546d0-3ee6-11eb-022d-5d7badf11f43
+"""   
+
+    plot_linewise(
+        band::Array{T,2}
+    ) 
+Plots 2d input as a 1d array
+
+
+    plot_linewise(
+            cube::Array{T,3}
+            )
+Returns linewise plot of each band
+"""
 function plot_linewise(cube::Array{T,3}) where T
     plots = Array{Plots.Plot,1}(undef,size(cube)[3])
     for band_i in 1:size(cube)[3]
@@ -24,6 +37,14 @@ function plot_linewise(band::Array{T,2}) where T
 end
 
 # ╔═╡ d4a47540-3ee6-11eb-1482-03c7053b30f5
+"""   
+
+    plot_cols
+        band::Array{T,2}
+    ) 
+Plots columns
+
+"""
 function plot_cols(band)
     p = plot(legend=false)
     for i in 1:size(band)[2]
@@ -33,6 +54,14 @@ function plot_cols(band)
 end 
 
 # ╔═╡ d84bab50-3ee6-11eb-1551-97c475da2664
+"""   
+
+    plot_rows(
+        band::Array{T,2}
+    ) 
+Plots plot rows
+
+"""
 function plot_rows(band)    
     p = plot(legend=false)
     for i in 1:size(band)[1]        
@@ -42,6 +71,15 @@ function plot_rows(band)
 end
 
 # ╔═╡ 1b914ab0-3af4-11eb-2b9c-1f8a66af86c4
+"""   
+
+    plot_band(
+        band::Array{T,2}
+    )
+
+Squares the band, then returns heatmap of the downsized map, columns polot and rows plot
+
+"""
 function plot_band(band)    
     # 4 resize
     band = imresize(preliminary(band), ratio = 1/20)
