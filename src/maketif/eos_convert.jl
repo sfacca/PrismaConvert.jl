@@ -109,8 +109,14 @@ maketif(my_dict["file 0"], "out/result")
     # get VNIR data cube and convert to raster ----
     if VNIR
       println("building VNIR raster...")
-      out_file_vnir = create_cube(in_file,proc_lev,source,basefile,wl_vnir,order_vnir,fwhm_vnir;
-        overwrite =overwrite,type="VNIR",selbands=selbands_vnir, allowed_errors=allowed_errors)
+      try
+        out_file_vnir = create_cube(in_file,proc_lev,source,basefile,wl_vnir,order_vnir,fwhm_vnir;
+          overwrite =overwrite,type="VNIR",selbands=selbands_vnir, allowed_errors=allowed_errors)
+      catch e
+        println("error:")
+        println(e)
+        VNIR = false
+      end
     end
 
 
@@ -118,8 +124,14 @@ maketif(my_dict["file 0"], "out/result")
     # get SWIR data cube and convert to raster ----
     if SWIR
       println("building SWIR raster...")
-      out_file_swir = create_cube(in_file,proc_lev,source,basefile,wl_swir,order_swir,fwhm_swir;
-        overwrite =overwrite,type="SWIR",selbands=selbands_swir, allowed_errors=allowed_errors)
+      try
+        out_file_swir = create_cube(in_file,proc_lev,source,basefile,wl_swir,order_swir,fwhm_swir;
+          overwrite =overwrite,type="SWIR",selbands=selbands_swir, allowed_errors=allowed_errors)
+      catch e
+        println("error:")
+        println(e)
+        SWIR = false
+      end
     end
 
 
@@ -128,14 +140,26 @@ maketif(my_dict["file 0"], "out/result")
     if FULL
       println("building FULL raster...")
       #get geo
-      geo = eos_geoloc.get(in_file,"VNIR")#
-      out_file_full = create_full(basefile,join_priority,overwrite,geo)
+      try
+        geo = eos_geoloc.get(in_file,"VNIR")#
+        out_file_full = create_full(basefile,join_priority,overwrite,geo)
+      catch e
+        println("error:")
+        println(e)
+        FULL = false
+      end
     end
 
 
     # Save PAN if requested ----
     if PAN
-      out_file_pan = create_pan(in_file,proc_lev,basefile;overwrite=overwrite)
+      try
+        out_file_pan = create_pan(in_file,proc_lev,basefile;overwrite=overwrite)
+      catch e
+        println("error:")
+        println(e)
+        PAN = false
+      end
     end
 
   end
