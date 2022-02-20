@@ -4,3 +4,5 @@
 
 
 PrismaConvert is a Julia package that provides services for workloads using HDF5 products from the  [PRISMA](http://prisma-i.it/index.php/en/) satellite.
+
+Porting of https://github.com/IREA-CNR-MI/prismaread from R to Julia
